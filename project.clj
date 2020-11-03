@@ -6,5 +6,7 @@
   :dependencies [[org.clojure/clojure "1.10.1"]
                   [clj-http "3.10.3"]
                   [org.clojure/java.jdbc "0.7.11"]
-                  [org.xerial/sqlite-jdbc "3.32.3.2"]]
+                  [org.xerial/sqlite-jdbc "3.32.3.2"]
+                  ;; TODO: handle prod and dev dependencies
+                  [cider/cider-nrepl "0.9.1"]]
   :repl-options {:init-ns cozysleep.core})

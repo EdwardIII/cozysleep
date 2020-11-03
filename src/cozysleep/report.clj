@@ -34,8 +34,6 @@
                    (count dodgy-statuses)
                    " sites reported failure: "
                    (string/join  ", " (map status-to-string dodgy-statuses)))
-                  ;; outputs "CRITICAL - 1 sites reported failure:  ()"
-                  ;; why? something to do with lazyness of map?
               (str "OK - " (count statuses) " sites returned 200"))))
 
 (defn nagios-output
