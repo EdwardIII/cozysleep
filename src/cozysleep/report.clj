@@ -15,7 +15,7 @@
 (defn is-bad
   "This is a bad status"
   [status]
-  (not= 200 (get status :code))
+  (not= 200 (get status :code)))
 
 (defn bad-statuses
   [statuses]
@@ -31,22 +31,22 @@
   "Returns error code 2 for bad statuses, 
   or success code 0 if not"
   [statuses]
-  (if (> 0 (count (bad-statuses statuses))) 2 0))
+  (if (seq (bad-statuses statuses)) 2 0))
 
 (defn messsage-for-statuses
   "returns a success or failure message
   depending on the statuses"
   [statuses]
   (let [dodgy-statuses (bad-statuses statuses)]
-    (if (> 0 (count dodgy-statuses))
-              (str "OK - " (count statuses) " sites returned 200")
+    (if (seq dodgy-statuses)
               (str 
                    "CRITICAL - " 
                    (count dodgy-statuses)
                    " sites reported failure: "
-                   (string/join  ", " (map status-to-string dodgy-statuses))))))
+                   (string/join  ", " (map status-to-string dodgy-statuses)))
                   ;; outputs "CRITICAL - 1 sites reported failure:  ()"
                   ;; why? something to do with lazyness of map?
+              (str "OK - " (count statuses) " sites returned 200"))))
 
 (defn nagios-output
   [statuses]
