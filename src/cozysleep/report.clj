@@ -2,16 +2,6 @@
 
 ;; TODO: update status to code in all statuses
 
-(def sample-bad-statuses
-  [{
-    :code 200
-    :url "https://www.google.com"
-    }
-   {
-    :code 0
-    :url "http://kjaskdjhfkajhsdkjfh.com"
-    }])
-
 (defn is-bad
   "This is a bad status"
   [status]
