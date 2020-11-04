@@ -9,4 +9,5 @@
                   [org.xerial/sqlite-jdbc "3.32.3.2"]
                   ;; TODO: handle prod and dev dependencies
                   [cider/cider-nrepl "0.9.1"]]
-  :repl-options {:init-ns cozysleep.core})
+  :repl-options {:init-ns cozysleep.core}
+  :main cozysleep.core)

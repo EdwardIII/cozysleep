@@ -28,3 +28,7 @@
   [statuses]
   (doseq [a-statement (map statement statuses)]
     (execute! db a-statement)))
+
+(defn get-statuses
+  []
+  (query db "SELECT url, code FROM statuses"))
