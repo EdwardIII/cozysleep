@@ -4,8 +4,9 @@
     [cozysleep.storage :as storage]))
 
 (defn -main
-  "Setup and start the app"
+  "Start the app and create the db, if needed"
   []
   (storage/create-db)
-  (storage/insert-statuses! (map cozysleep.status/check-status
-                                 ["https://example.com" "https://google.com" "https://lkjasfdlkjasdflkjafsdljksad.com"])))
+                       ;; TODO: Take from stdin
+  (let [urls (map :url status/sample-mixed)]
+    (storage/upsert-statuses! (map cozysleep.status/check-status urls))))
