@@ -1,5 +1,7 @@
 (ns cozysleep.status 
   (:import java.net.UnknownHostException)
+  (:import java.net.ConnectException)
+  (:import java.net.SocketTimeoutException)
   (:require [clj-http.client :as client]))
 
 (def sample-mixed
@@ -17,10 +19,7 @@
   [url]
     {:url url
      :code (try
-               (get (client/get url) :status)
-               (catch UnknownHostException _ 0))})
-
-(defn check-statuses
-  "Check the status of multiple urls"
-  [urls]
-  (map check-status urls))
+               (get (client/get url {:socket-timeout 5000 :connection-timeout 5000}) :status)
+               (catch UnknownHostException _ 0)
+               (catch ConnectException _ 0)
+               (catch SocketTimeoutException _ 0))})
