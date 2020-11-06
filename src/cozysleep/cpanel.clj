@@ -1,3 +1,5 @@
+(ns cozysleep.cpanel)
+
 (defn file-to-list
   "Take a file and turn it into a list, with one entry per line"
   [filename]
@@ -11,7 +13,7 @@
   [lines]
   (map line-to-url lines))
 
-(defn cpanel-domains
+(defn domains
   "Get a list of domain names from /etc/userdomains
 
   Will turn:
@@ -23,6 +25,4 @@
   
   [http://edwardiii.co.uk http://openedweb.co.uk]"
   [path]
-  (lines-to-urls (file-to-list path)))
-
-
+  (lines-to-urls (file-to-list (or path "/etc/userdomains"))))
