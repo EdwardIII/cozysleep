@@ -42,6 +42,6 @@
                    (println (get output :message))
                    (System/exit (get output :exitcode))))
       ;; "Assume the rest of the args were a bunch of urls"
-      "urls"  (storage/upsert-statuses! (map cozysleep.status/check-status args))
+      "urls"  (storage/upsert-statuses! (pmap cozysleep.status/check-status args))
       ;; Assume the next arg is a path to the cpanel userdomains file, or default to /etc/userdomains
-      "cpanel-domains"  (storage/upsert-statuses! (map cozysleep.status/check-status (cpanel-domains (first args)))))))
+      "cpanel-domains"  (storage/upsert-statuses! (pmap cozysleep.status/check-status (cpanel-domains (first args)))))))
