@@ -10,4 +10,5 @@
                   ;; TODO: handle prod and dev dependencies
                   [cider/cider-nrepl "0.9.1"]]
   :repl-options {:init-ns cozysleep.core}
-  :main cozysleep.core)
+  :main cozysleep.core
+  :aliases {"docs" ["run" "-m" "cozysleep.core/update-readme!"]})

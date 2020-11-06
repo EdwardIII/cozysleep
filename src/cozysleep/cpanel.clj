@@ -6,6 +6,10 @@
   (clojure.string/split-lines (slurp filename)))
 
 (defn line-to-url
+  "Turns 
+  edwardiii.co.uk: edwardiii
+  into:
+  edwardiii.co.uk"
   [line]
   (str "http://" (clojure.string/replace-first line #":.*" "")))
 
