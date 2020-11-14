@@ -1,5 +1,9 @@
 (ns cozysleep.storage
-  (:import java.sql.BatchUpdateException)
+  (:import 
+    (java.sql BatchUpdateException)
+    (java.text SimpleDateFormat)
+    (java.util Date))
+           
   (:require [clojure.java.jdbc :refer :all]))
 
 (def db
@@ -22,13 +26,11 @@
          (when (not= (.getMessage e) "batch entry 0: [SQLITE_ERROR] SQL error or missing database (table statuses already exists)") (throw e)))))
 
 (defn now
-  "JDBC can't translate Date into someting
-  sqlite understands, so we must do it ourselves.
-  
-  Returns the current time as a formatted string."
+  "Returns the current time as a formatted string."
+  ;; JDBC can't translate Date into someting
+  ;; sqlite understands, so we must do it ourselves.
   []
-  (let [d (java.util.Date.)]
-    (.format (new java.text.SimpleDateFormat "yyyy-MM-dd HH:mm:ssZ") (new java.util.Date))))
+  (.format (SimpleDateFormat. "yyyy-MM-dd HH:mm:ssZ") (Date.)))
 
 (defn with-updated-on
   "Add the updated-on key to this status
