@@ -1,7 +1,5 @@
 (ns cozysleep.report [:require [clojure.string :as string]])
 
-;; TODO: update status to code in all statuses
-
 (defn is-bad
   "This is a bad status"
   [status]
