@@ -36,7 +36,7 @@
   "Add the updated-on key to this status
   with the current time as it's value"
   [status]
-  (assoc status :updated_on (now)))
+  (assoc status :updated-on (now)))
 
 (defn statement
   [status]
@@ -47,9 +47,9 @@
    ON CONFLICT(url) DO UPDATE SET code=?, updated_on=?"
     (get status :url)
     (get status :code)
-    (get status :updated_on)
+    (get status :updated-on)
     (get status :code)
-    (get status :updated_on)])
+    (get status :updated-on)])
 
 (defn to-statement-with-updated-on
   "Add the current date and turn
@@ -64,8 +64,8 @@
   update the status and updated_on time"
   [statuses]
   (doseq [a-statement (map to-statement-with-updated-on statuses)]
-    (execute! db a-statement)))
+    (execute! db a-statement {:identifiers #(.replace % \_ \-)})))
 
 (defn get-statuses
   []
-  (query db "SELECT url, code FROM statuses"))
+  (query db "SELECT url, code, updated_on FROM statuses" {:identifiers #(.replace % \_ \-)}))
