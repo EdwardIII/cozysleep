@@ -59,13 +59,15 @@
       with-updated-on
       statement))
 
+(def identifiers {:identifiers #(.replace % \_ \-)})
+
 (defn upsert-statuses!
   "Insert new status, or, if the url already exists,
   update the status and updated_on time"
   [statuses]
   (doseq [a-statement (map to-statement-with-updated-on statuses)]
-    (execute! db a-statement {:identifiers #(.replace % \_ \-)})))
+    (execute! db a-statement identifiers)))
 
 (defn get-statuses
   []
-  (query db "SELECT url, code, updated_on FROM statuses" {:identifiers #(.replace % \_ \-)}))
+  (query db "SELECT url, code, updated_on FROM statuses" identifiers))
