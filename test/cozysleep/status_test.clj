@@ -2,9 +2,7 @@
   (:require [clojure.test :refer :all]
             [cozysleep.status :as status]))
 
-(deftest check-statuses-tests
+(deftest check-status-200
   (testing "check-statuses with mixed statuses"
-    (is (= status/sample-mixed 
-           (status/check-statuses 
-             ["https://www.google.com"
-              "http://kjaskdjhfkajhsdkjfh.com"])))))
+    (is (= 200
+           (get (status/check-status "https://www.google.com") :code)))))
