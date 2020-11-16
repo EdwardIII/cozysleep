@@ -4,7 +4,8 @@
     (java.text SimpleDateFormat)
     (java.util Date))
            
-  (:require [clojure.java.jdbc :refer :all]))
+  (:require [clojure.java.jdbc :refer :all]
+            [java-time :as time]))
 
 (def db
   {:classname   "org.sqlite.JDBC"
@@ -51,6 +52,14 @@
     (get status :code)
     (get status :updated-on)])
 
+(defn to-date
+  [string]
+  (time/local-date-time "yyyy-MM-dd HH:mm:ssZ" string))
+
+(defn hydrate-status
+  [status]
+  (update-in status [:updated-on] to-date))
+
 (defn to-statement-with-updated-on
   "Add the current date and turn
   into an SQL statement"
@@ -61,6 +70,10 @@
 
 (def identifiers {:identifiers #(.replace % \_ \-)})
 
+(defn hours-ago
+  [hours]
+  (time/minus (time/local-date-time) (time/hours hours)))
+
 (defn upsert-statuses!
   "Insert new status, or, if the url already exists,
   update the status and updated_on time"
@@ -70,4 +83,4 @@
 
 (defn get-statuses
   []
-  (query db "SELECT url, code, updated_on FROM statuses" identifiers))
+  (map hydrate-status (query db "SELECT url, code, updated_on FROM statuses" identifiers)))
