@@ -22,16 +22,15 @@
                                           [:updated_on :datetime]
                                           [:url :text :UNIQUE]
                                           [:code :text]]))
-
        (catch BatchUpdateException e
          (when (not= (.getMessage e) "batch entry 0: [SQLITE_ERROR] SQL error or missing database (table statuses already exists)") (throw e)))))
 
+(def datetime-format "yyyy-MM-dd HH:mm:ss")
+
 (defn now
   "Returns the current time as a formatted string."
-  ;; JDBC can't translate Date into someting
-  ;; sqlite understands, so we must do it ourselves.
   []
-  (.format (SimpleDateFormat. "yyyy-MM-dd HH:mm:ssZ") (Date.)))
+  (time/format datetime-format (time/local-date-time)))
 
 (defn with-updated-on
   "Add the updated-on key to this status
@@ -54,7 +53,7 @@
 
 (defn to-date
   [string]
-  (time/local-date-time "yyyy-MM-dd HH:mm:ssZ" string))
+  (time/local-date-time datetime-format string))
 
 (defn hydrate-status
   [status]
