@@ -69,10 +69,6 @@
 
 (def identifiers {:identifiers #(.replace % \_ \-)})
 
-(defn hours-ago
-  [hours]
-  (time/minus (time/local-date-time) (time/hours hours)))
-
 (defn upsert-statuses!
   "Insert new status, or, if the url already exists,
   update the status and updated_on time"

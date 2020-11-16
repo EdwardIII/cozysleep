@@ -1,4 +1,7 @@
-(ns cozysleep.report [:require [clojure.string :as string]])
+(ns cozysleep.report
+  [:require
+   [clojure.string :as string]
+   [cozysleep.storage as storage]])
 
 (defn is-bad
   "This is a bad status"
@@ -21,18 +24,28 @@
   [statuses]
   (if (seq (bad-statuses statuses)) 2 0))
 
+(defn hours-ago
+  [hours]
+  (time/minus (time/local-date-time) (time/hours hours)))
+
+;; TODO: Update the messaging to warn if
+;; the results are stale
+(defn is-stale
+  [status]
+  (time/before? (status :updated-on) (hours-ago 1)))
+
 (defn messsage-for-statuses
   "returns a success or failure message
   depending on the statuses"
   [statuses]
   (let [dodgy-statuses (bad-statuses statuses)]
-    (if (seq dodgy-statuses)
+    (if (seq dodgy-statuses
               (str 
                    "CRITICAL - " 
                    (count dodgy-statuses)
                    " sites reported failure: "
                    (string/join  ", " (map status-to-string dodgy-statuses)))
-              (str "OK - " (count statuses) " sites returned 200"))))
+              (str "OK - " (count statuses) " sites returned 200")))))
 
 (defn nagios-output
   [statuses]
