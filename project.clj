@@ -12,4 +12,5 @@
                   [cider/cider-nrepl "0.9.1"]]
   :repl-options {:init-ns cozysleep.core}
   :main cozysleep.core
-  :aliases {"docs" ["run" "-m" "cozysleep.core/update-readme!"]})
+  :aliases {"docs" ["run" "-m" "cozysleep.core/update-readme!"]}
+  :profiles {:dev {:plugins [[com.jakemccrary/lein-test-refresh "0.24.1"]]}})
