@@ -5,7 +5,7 @@
 (def status
   {:url "http://edwardiii.co.uk"
    :code "200"
-   :updated-on "2020-11-16 20:04:30+0000"})
+   :updated-on "2020-11-16 20:04:30"})
 
 (deftest test-date-hydrate
   (let [updated-status, (storage/hydrate-status status)]
