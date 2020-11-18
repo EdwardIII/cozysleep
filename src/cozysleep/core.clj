@@ -7,6 +7,7 @@
 
 ; TODO: warn about stale results
 ; TODO: allow a configurable amount of failures
+; TODO: Add spec for status
 
 (def usage
 "# cozysleep: Sleep better knowing your sites are up
@@ -41,7 +42,7 @@ Example:
   (do
     (storage/create-db)
     (case (first args)
-      "report" (let [output (report/nagios-output status/sample-mixed)]
+      "report" (let [output (report/nagios-output (storage/get-statuses))]
                  (do
                    (println (get output :message))
                    (System/exit (get output :exitcode))))

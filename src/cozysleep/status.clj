@@ -2,17 +2,8 @@
   (:import java.net.UnknownHostException)
   (:import java.net.ConnectException)
   (:import java.net.SocketTimeoutException)
-  (:require [clj-http.client :as client]))
-
-(def sample-mixed
-  [{
-    :code 200
-    :url "https://www.google.com"
-    }
-   {
-    :code 0
-    :url "http://kjaskdjhfkajhsdkjfh.com"
-    }])
+  (:require [clj-http.client :as client]
+            [java-time :as time]))
 
 (defn check-status
   "Gets the status for a url by calling out to it over http"

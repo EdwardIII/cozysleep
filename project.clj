@@ -9,7 +9,8 @@
                   [org.xerial/sqlite-jdbc "3.32.3.2"]
                   [clojure.java-time "0.3.2"]
                   ;; TODO: handle prod and dev dependencies
-                  [cider/cider-nrepl "0.9.1"]]
+                  [cider/cider-nrepl "0.9.1"]
+                  [org.clojure/tools.trace "0.7.10"]]
   :repl-options {:init-ns cozysleep.core}
   :main cozysleep.core
   :aliases {"docs" ["run" "-m" "cozysleep.core/update-readme!"]}
