@@ -6,11 +6,11 @@
 
 (def sample-mixed
   [{
-    :code 200
+    :code "200"
     :url "https://www.google.com"
     :updated-on (time/local-date-time 2015 10 01)}
    {
-    :code 0
+    :code "0"
     :url "http://kjaskdjhfkajhsdkjfh.com"
     :updated-on (time/local-date-time 2015 10 01)
     :message "ECONNECTFAILED"}])
@@ -26,13 +26,13 @@
 
 (def good-status
   {
-    :code 200
+    :code "200"
     :url "https://www.google.com"
     :updated-on thenish})
 
 (deftest stale-to-bad-should-return-bad-result
     (is (=
-          {:code 0
+          {:code "0"
             :url "https://www.google.com"
             :updated-on thenish
             :message "was not updated since 2015-10-01T00:00. Maybe your runner isn't working?"}

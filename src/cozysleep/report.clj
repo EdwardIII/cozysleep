@@ -8,15 +8,10 @@
   [status]
   (not= "200" (get status :code)))
 
-(defn bad-statuses
-  [statuses]
-  "These are all the bad statuses"
-  (filter (fn[s] (not= 200 (get s :code))) statuses))
-
 (defn code-or-message
   [status]
   "If status is 0, use the message instead"
-  (if (= 0 (status :code))
+  (if (= "0" (status :code))
     (status :message)
     (status :code)))
 
@@ -29,7 +24,7 @@
   "Returns error code 2 for bad statuses,
   or success code 0 if not"
   [statuses]
-  (if (seq (bad-statuses statuses)) 2 0))
+  (if (seq (map is-bad statuses)) 2 0))
 
 (defn now
   []
@@ -46,12 +41,12 @@
   (time/before? (status :updated-on) (hours-ago 1)))
 
 (defn bad-status-message
-  [dodgy-statuses]
+  [bad-statuses]
   (str
     "CRITICAL - "
-    (count dodgy-statuses)
+    (count bad-statuses)
     " sites reported failure: "
-    (string/join  ", " (map status-to-string dodgy-statuses))))
+    (string/join  ", " (map status-to-string bad-statuses))))
 
 (defn good-status-message
   [statuses]
@@ -62,7 +57,7 @@
   [status]
   (if (is-stale status)
     (assoc status
-           :code 0
+           :code "0"
            :message (str "was not updated since " (status :updated-on) ". Maybe your runner isn't working?"))
     status))
 
@@ -76,10 +71,9 @@
   "returns a success or failure message
   depending on the statuses"
   [statuses]
-  ;(let [dodgy-statuses (bad-statuses (map stale-to-bad statuses))]
-  (let [dodgy-statuses (gimmie-bad-statuses statuses)]
-    (if (seq dodgy-statuses)
-      (bad-status-message dodgy-statuses)
+  (let [bad-statuses (gimmie-bad-statuses statuses)]
+    (if (seq bad-statuses)
+      (bad-status-message bad-statuses)
       (good-status-message statuses))))
 
 (defn nagios-output
